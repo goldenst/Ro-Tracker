@@ -15,8 +15,14 @@ const ticketSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    phone: {
+      type: String,
+    },
     vehicle: {
       type: String,
+    },
+    phone: {
+      type: String
     },
     concern: {
       type: String,
@@ -25,10 +31,11 @@ const ticketSchema = mongoose.Schema(
       type: String,
       enum: [
         "New",
-        "Need to Assign",
+        "NTA",
         "in Progress",
-        "Waiting on Parts",
-        "Waiting for Approval",
+        "WOP",
+        "WOA",,
+        "Parts Here",
         "Completed",
       ],
       default: "New",

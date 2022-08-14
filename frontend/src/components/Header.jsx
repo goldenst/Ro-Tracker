@@ -21,7 +21,9 @@ const Header = () => {
         <Link to="/">Open Ticket</Link>
       </div>
       <ul>
+      
         {user ? (
+          
           <li>
             <button className="btn" onClick={onLogout}>
               <FaSignOutAlt /> Logout

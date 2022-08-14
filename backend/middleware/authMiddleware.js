@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 
 const User = require("../models/userModel");
-// const { truncate } = require("fs");
 
 const protect = asyncHandler(async (req, res, next) => {
   if (
@@ -12,7 +11,7 @@ const protect = asyncHandler(async (req, res, next) => {
     try {
       // Get Token from header
       token = req.headers.authorization.split(" ")[1];
-      // Verify token 
+      // Verify token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
       // Get User from token
@@ -21,7 +20,7 @@ const protect = asyncHandler(async (req, res, next) => {
       next();
     } catch (error) {
       console.log(error);
-      console.log('Error: AM 23')
+      console.log("Error: Auth Mmiddleware line 23");
       res.sendStatus(401);
       throw new Error("Not Authorized");
     }
@@ -32,5 +31,4 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-
-module.exports = { protect }
+module.exports = { protect };

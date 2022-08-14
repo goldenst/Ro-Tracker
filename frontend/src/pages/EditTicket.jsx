@@ -1,23 +1,31 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { createTicket, reset } from "../features/tickets/ticketSlice";
+import {
+  updateTicket,
+  getTicket,
+  reset,
+} from "../features/tickets/ticketSlice";
 import Spinner from "../components/Spinner";
 import BackBtn from "../components/BackBtn";
+import Ticket from "./Ticket";
 
-function NewTicket() {
-  const { user } = useSelector((state) => state.auth);
-  // from slicer
-  const { isLoading, isError, isSuccess, message } = useSelector(
+function EditTicket() {
+  // get state from tickets
+  const { ticket, isLoading, isSuccess, isError, message } = useSelector(
     (state) => state.tickets
   );
+  // get user state
+  const { user } = useSelector((state) => state.auth);
+
+  const { ticketId } = useParams();
 
   const [sa] = useState(user.name);
-  const [repairOrder, setRepairOrder] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("")
+  const [repairOrder] = useState(ticket.repairOrder);
+  const [name] = useState(ticket.name);
+  const [phone, setPhone] = useState("");
   const [vehicle, setVehicle] = useState("");
   const [concern, setConcern] = useState("");
   const [status, setStatus] = useState("New");
@@ -26,16 +34,24 @@ function NewTicket() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // get ticket
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    dispatch(getTicket(ticketId));
+    // eslint-disable-next-line
+  }, [isError, message, ticketId]);
+
   useEffect(() => {
     if (isError) {
       console.log(message);
       toast.error(message);
     }
-
     if (isSuccess) {
       dispatch(reset());
       // route /tickets
-      navigate("/tickets");
+     // navigate("/tickets/");
     }
 
     dispatch(reset());
@@ -44,16 +60,14 @@ function NewTicket() {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(
-      createTicket({
-        repairOrder,
-        name,
-        phone,
+      updateTicket({
         vehicle,
         concern,
         status,
         tech,
       })
-    );
+    )
+    navigate("/tickets/");
   };
 
   if (isLoading) {
@@ -64,45 +78,22 @@ function NewTicket() {
     <>
       <BackBtn url="/" />
       <section className="heading">
-        <p>Create New Ticket</p>
+        <p>Edit Ticket</p>
       </section>
       <section className="form">
         <form onSubmit={onSubmit}>
           <div className="form-group">
-            <label htmlFor="name">Service Advisor</label>
-            <input type="text" className="form-control" value={sa} disabled />
+            <h3 htmlFor="name">Service Advisor: {sa}</h3>
           </div>
           <div className="form-group">
-            <label htmlFor="repairOrder">Ro Number</label>
-            <input
-              type="text"
-              className="form-control"
-              value={repairOrder}
-              onChange={(e) => setRepairOrder(e.target.value)}
-            />
+            <h3 htmlFor="name">Ro Number: {repairOrder}</h3>
           </div>
           <div className="form-group">
-            <label htmlFor="name">Customer Name</label>
-            <input
-              type="text"
-              className="form-control"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+            <h3 htmlFor="name">Customer: {name}</h3>
           </div>
+
           <div className="form-group">
-            <label htmlFor="phone">Phone Number</label>
-            <input
-              type="tel"
-              className="form-control"
-              pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
-              placeholder="Format: 555-555-5555"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="vehicle">Vehicle</label>
+            <label htmlFor="vehicle">Vehicle:</label>
             <input
               type="text"
               className="form-control"
@@ -111,7 +102,7 @@ function NewTicket() {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="concern">Concern</label>
+            <label htmlFor="concern">Concerns:</label>
             <input
               type="text"
               className="form-control"
@@ -120,7 +111,7 @@ function NewTicket() {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="status">Status</label>
+            <label htmlFor="status">Status:</label>
             <select
               name="status"
               id="status"
@@ -137,7 +128,7 @@ function NewTicket() {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="tech">Tech</label>
+            <label htmlFor="tech">Tech:</label>
             <input
               type="text"
               className="form-control"
@@ -154,4 +145,4 @@ function NewTicket() {
   );
 }
 
-export default NewTicket;
+export default EditTicket;

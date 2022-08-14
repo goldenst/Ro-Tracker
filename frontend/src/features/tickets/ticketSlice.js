@@ -26,10 +26,34 @@ export const createTicket = createAsyncThunk(
         error.toString();
       console.log(ticketData);
       console.log(error);
+      console.log("Failed Ticket slice createTicket");
       return thunkAPI.rejectWithValue(message);
     }
   }
 );
+
+// update ticket
+export const updateTicket = createAsyncThunk(
+  "tickets/update",
+  async (ticketData, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await ticketService.updateTicket(ticketData, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log(ticketData);
+      console(error);
+      console.log("Failed Ticket slice updateTicket");
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 
 // Get user tickets
 export const getTickets = createAsyncThunk(
@@ -45,7 +69,7 @@ export const getTickets = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      console.log("Failed ts 49");
+      console.log("Failed Ticket slice getall");
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -65,13 +89,14 @@ export const getTicket = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      console.log("fail: tickets/get single");
 
       return thunkAPI.rejectWithValue(message);
     }
   }
 );
 
-// Close ticket
+// Close ticket *** delete ticket
 export const closeTicket = createAsyncThunk(
   "tickets/close",
   async (ticketId, thunkAPI) => {
@@ -90,6 +115,28 @@ export const closeTicket = createAsyncThunk(
     }
   }
 );
+
+// Delete ticket
+export const deleteTicket = createAsyncThunk(
+  "tickets/delete",
+  async (ticketId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await ticketService.deleteTicket(ticketId, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+
 
 export const ticketSlice = createSlice({
   name: "ticket",
@@ -111,7 +158,53 @@ export const ticketSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
-  
+      .addCase(updateTicket.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateTicket.fulfilled, (state) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(updateTicket.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getTickets.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getTickets.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.tickets = action.payload;
+      })
+      .addCase(getTickets.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getTicket.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getTicket.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.ticket = action.payload;
+      })
+      .addCase(getTicket.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(closeTicket.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.tickets.map((ticket) =>
+          ticket.id === action.payload._id
+            ? (ticket.status = "completed")
+            : ticket
+        );
+      });
   },
 });
 

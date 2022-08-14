@@ -32,10 +32,11 @@ function Tickets() {
       <BackBtn url='/' />
       <h1>Tickets</h1>
       <div className='tickets'>
-        <div className='ticket-heading'>
-          <div>Date</div>
+        <div className='ticket-headings'>
+          <div>Repair order</div>
           <div>Customer</div>
           <div>Status</div>
+          <div></div>
           <div></div>
         </div>
         {tickets.map((ticket) => (
