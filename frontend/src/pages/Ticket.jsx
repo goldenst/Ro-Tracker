@@ -64,7 +64,8 @@ function Ticket() {
   const onTicketClose = () => {
     dispatch(closeTicket(ticketId));
     toast.success("Ticket Closed");
-    navigate("/tickets");
+    navigate("/");
+   
   };
 
   // create note submit
@@ -106,12 +107,13 @@ function Ticket() {
           </span> 
 
           {/*  ********************update Button ************************    */}
-          <button onClick={onUpdateTicket} className="btn btn-reverse"><FaEdit />Edit</button>
+          {/* <button onClick={onUpdateTicket} className="btn btn-reverse"><FaEdit />Edit</button> */}
         </h2>
         <h3>
           Customer: {ticket.name} 
         </h3>
         <h3>Phone: {ticket.phone}</h3>
+       <div>Date: {new Date(ticket.createdAt).toLocaleString('en-us')}</div>
         <hr></hr>
         <div className="ticket-headings">
           <div>Vehicle: {ticket.vehicle}</div>
