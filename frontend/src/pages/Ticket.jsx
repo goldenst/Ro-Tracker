@@ -118,7 +118,7 @@ function Ticket() {
         <div className="ticket-headings">
           <div>Vehicle: {ticket.vehicle}</div>
           <div>Tech: {ticket.tech}</div>
-          <div>Servicce Advisor: {user.name}</div>
+          <div>Servicce Advisor: {ticket.name}</div>
           
         </div>
         <div className="ticket-desc">
