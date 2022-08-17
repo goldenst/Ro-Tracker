@@ -76,11 +76,11 @@ function Ticket() {
   };
 
   // Update Tickiet
-  const onUpdateTicket = () => {
+  // const onUpdateTicket = () => {
     
-    navigate(`/edit-ticket/${ticket._id}1`)
-    console.log('update clicked')
-  }
+  //   navigate(`/edit-ticket/${ticket._id}1`)
+  //   console.log('update clicked')
+  // }
 
   // open / close modal
   const openModal = () => setModalIsOpen(true);
