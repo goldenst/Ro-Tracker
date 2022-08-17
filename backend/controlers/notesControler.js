@@ -9,13 +9,13 @@ const Note = require("../models/notesModel");
 // @access   Private
 const getNotes = asyncHandler(async (req, res) => {
   // Get User Tickets
-  const user = await User.findById(req.user.id);
+  // const user = await User.findById(req.user.id);
 
-  if (!user) {
-    res.send(401);
-    console.log("user not founf  nc 15");
-    throw new Error("user not found");
-  }
+  // if (!user) {
+  //   res.send(401);
+  //   console.log("user not founf  nc 15");
+  //   throw new Error("user not found");
+  // }
   const ticket = await Ticket.findById(req.params.ticketId);
 
   if (ticket.user.toString() !== req.user.id) {
@@ -36,10 +36,10 @@ const addNote = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id);
 
   if (!user) {
-    res.send(401);
-    console.log("user not founf  nc 15");
-    throw new Error("user not found");
-  }
+   res.send(401);
+   console.log("user not founf  nc 15");
+   throw new Error("user not found");
+ }
   const ticket = await Ticket.findById(req.params.ticketId);
 
   // if (ticket.user.toString() !== req.user.id) {
@@ -49,8 +49,8 @@ const addNote = asyncHandler(async (req, res) => {
 
   const note = await Note.create({ 
     text: req.body.text,
-    ticket: req.params.ticketId ,
-    user: req.user.id
+    ticket: req.params.ticketId,
+    //user: req.user.id
   });
 
   res.status(200).json(note);

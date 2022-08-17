@@ -9,7 +9,7 @@ const PrivateRoutes = () => {
   if (checkingStatus) {
     return <Spinner />;
   }
-  
+
   return loggedIn ? <Outlet /> : <Navigate to="/login" />;
 };
 
