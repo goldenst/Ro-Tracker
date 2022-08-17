@@ -50,7 +50,7 @@ const addNote = asyncHandler(async (req, res) => {
   const note = await Note.create({ 
     text: req.body.text,
     ticket: req.params.ticketId,
-    user: req.user.id
+    user: req.user.name
   });
 
   res.status(200).json(note);
