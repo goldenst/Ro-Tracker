@@ -110,7 +110,7 @@ function Ticket() {
           {/* <button onClick={onUpdateTicket} className="btn btn-reverse"><FaEdit />Edit</button> */}
         </h2>
         <h3>
-          Customer: {ticket.customer} 
+          Customer: {ticket.name} 
         </h3>
         <h3>Phone: {ticket.phone}</h3>
        <div>Date: {new Date(ticket.createdAt).toLocaleString('en-us')}</div>
@@ -118,7 +118,7 @@ function Ticket() {
         <div className="ticket-headings">
           <div>Vehicle: {ticket.vehicle}</div>
           <div>Tech: {ticket.tech}</div>
-          <div>Servicce Advisor: {ticket.name}</div>
+          <div>Servicce Advisor: {user.name}</div>
           
         </div>
         <div className="ticket-desc">
