@@ -10,11 +10,11 @@ const getTickets = asyncHandler(async (req, res) => {
   // Get User Tickets
   const user = await User.findById(req.user.id);
 
-  if (!user) {
-    res.send(401);
-    console.log("user not founf  tc 15");
-    throw new Error("user not found");
-  }
+  // if (!user) {
+  //   res.send(401);
+  //   console.log("user not founf  tc 15");
+  //   throw new Error("user not found");
+  // }
   const tickets = await Ticket.find().sort({repairOrder: 1});
 
   res.status(200).json(tickets);
