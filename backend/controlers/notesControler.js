@@ -9,19 +9,19 @@ const Note = require("../models/notesModel");
 // @access   Private
 const getNotes = asyncHandler(async (req, res) => {
   // Get User Tickets
-  // const user = await User.findById(req.user.id);
+  const user = await User.findById(req.user.id);
 
-  // if (!user) {
-  //   res.send(401);
-  //   console.log("user not founf  nc 15");
-  //   throw new Error("user not found");
-  // }
+  if (!user) {
+    res.send(401);
+    console.log("user not founf  nc 15");
+    throw new Error("user not found");
+  }
   const ticket = await Ticket.findById(req.params.ticketId);
 
-  // if (ticket.user.toString() !== req.user.id) {
-  //   res.status(401);
-  //   throw new Error("user not Authroized");
-  // }
+  if (ticket.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error("user not Authroized");
+  }
 
   const notes = await Note.find({ ticket: req.params.ticketId });
 
