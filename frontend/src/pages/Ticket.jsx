@@ -110,7 +110,7 @@ function Ticket() {
           {/* <button onClick={onUpdateTicket} className="btn btn-reverse"><FaEdit />Edit</button> */}
         </h2>
         <h3>
-          Customer: {ticket.name} 
+          Customer: {ticket.customer} 
         </h3>
         <h3>Phone: {ticket.phone}</h3>
        <div>Date: {new Date(ticket.createdAt).toLocaleString('en-us')}</div>
