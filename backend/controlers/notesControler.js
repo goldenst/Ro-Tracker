@@ -42,10 +42,10 @@ const addNote = asyncHandler(async (req, res) => {
  }
   const ticket = await Ticket.findById(req.params.ticketId);
 
-  if (ticket.user.toString() !== req.user.id) {
-    res.status(401);
-    throw new Error("user not Authroized");
-  }
+  // if (ticket.user.toString() !== req.user.id) {
+  //   res.status(401);
+  //   throw new Error("user not Authroized");
+  // }
 
   const note = await Note.create({ 
     text: req.body.text,
