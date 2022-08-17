@@ -16,7 +16,7 @@ const getNotes = asyncHandler(async (req, res) => {
   //   console.log("user not founf  nc 15");
   //   throw new Error("user not found");
   // }
-  const ticket = await Ticket.findById(ticketId);
+  const ticket = await Ticket.findById(req.params.ticketId);
 
   // if (ticket.user.toString() !== req.user.id) {
   //   res.status(401);
